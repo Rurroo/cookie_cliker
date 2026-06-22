@@ -148,40 +148,58 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               Text("BUILDINGS",style: Theme.of(context).textTheme.headlineLarge),
-              InkWell(
-                onTap:(){
-                  cursorsOwned = buyBuilding(1, 25, cursorsOwned);
-                },
-                child:Card(
-                  child:ListTile(
-                    leading: Icon(Icons.pan_tool_alt),
-                    title: Text("Cursor"),
-                    subtitle: Text("Cps: 1  Owned:$cursorsOwned Cost:${(25+25*cursorsOwned*0.2).round()}"),
-                  )
+              Card(
+                child:Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child:ListTile(
+                          leading: Icon(Icons.pan_tool_alt),
+                          title: Text("Cursor"),
+                          subtitle: Text("Cps: 1  Owned:$cursorsOwned Cost:${(25+25*cursorsOwned*0.2).round()}"),
+                        )
+                      ),
+                      IconButton(
+                          onPressed:(){cursorsOwned = buyBuilding(1, 25, cursorsOwned);}, 
+                          icon: Icon(Icons.add),)
+                    ],
+                  ),
                 ),
               ),
-              InkWell(
-                onTap:(){
-                  bakersOwned = buyBuilding(10, 150, bakersOwned);
-                },
-                child:Card(
-                  child:ListTile(
-                    leading: Icon(Icons.bakery_dining),
-                    title: Text("Baker"),
-                    subtitle: Text("Cps: 10 Owned:$bakersOwned Cost:${(150+150*bakersOwned*0.2).round()}"),
-                  )
-                ),
+              Card(
+                child:Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          leading: Icon(Icons.bakery_dining),
+                          title: Text("Baker"),
+                          subtitle: Text("Cps: 10 Owned:$bakersOwned Cost:${(150+150*bakersOwned*0.2).round()}"),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed:(){bakersOwned = buyBuilding(10, 125, bakersOwned);},
+                        icon: Icon(Icons.add),)
+                    ],
+                  ),
+                )
               ),
-              InkWell(
-                onTap:(){
-                  farmsOwned = buyBuilding(50, 1000, farmsOwned);
-                },
-                child:Card(
-                  child:ListTile(
-                    leading: Icon(Icons.agriculture),
-                    title: Text("Farm"),
-                    subtitle: Text("Cps: 50 Owned:$farmsOwned Cost:${(1000+1000*farmsOwned*0.2).round()}"),
-                  )
+              Card(
+                child:Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child:ListTile(
+                          leading: Icon(Icons.agriculture),
+                          title: Text("Farm"),
+                          subtitle: Text("Cps: 50 Owned:$farmsOwned Cost:${(1000+1000*farmsOwned*0.2).round()}"),
+                        )
+                      ),
+                      IconButton(
+                        onPressed:(){farmsOwned = buyBuilding(50, 1000, farmsOwned);},
+                        icon: Icon(Icons.add),)
+                    ],
+                  ),
                 ),
               ),
             ],
