@@ -31,12 +31,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double cookieCount = 0;
-  double lifetimeCookieCount = 0;
-  double cookiesPerSecond = 0;
+  double cookieCount = 10000;
+  double lifetimeCookieCount = 10000; //change later
+  double cookiesPerSecond = 0;    //change later
   double cookiesPerSecondMultiplier = 1;
+
   double cookiesPerClick = 1;
   double cookiesPerClickMultiplier = 1;
+  double cookiesFromCPS = 0;
+  double cookiesFromCPSMult = 0;
+
+  int clickerUpgrade1Owned = 0;
+  int clickerUpgrade2Owned = 0;
 
   double playTime = 0;
 
@@ -82,7 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   void clickCookie() {
     setState(() {
-      cookieCount += (cookiesPerClick * cookiesPerClickMultiplier);
+      cookiesFromCPS = (cookiesPerSecond*cookiesPerClickMultiplier)*cookiesFromCPSMult;
+      cookieCount += (cookiesPerClick * cookiesPerClickMultiplier+cookiesFromCPS);
       lifetimeCookieCount += (cookiesPerClick * cookiesPerClickMultiplier);
     });
   }
@@ -104,6 +111,16 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
     return (upgradeOwned,mult);
+  }
+  dynamic upgradeClicker(int cost,int upgradeOwned,double multCurrent,double multAdd){
+    if(cookieCount >= cost && upgradeOwned == 0){
+      setState(() {
+        upgradeOwned = 1;
+        cookieCount -= cost;
+        multCurrent += multAdd;
+      });
+    }
+    return (upgradeOwned,multCurrent);
   }
 
   @override
@@ -248,6 +265,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
                   children: [
                     Expanded(
+                      child:ListTile(
+                        leading: Icon(Icons.pan_tool_alt),
+                        title: Text("Clicker"),
+                        subtitle: Text("Double Cookies per click Cost:1500"),
+                      )
+                    ),
+                    IconButton(
+                        onPressed:(){var result = upgradeClicker(1500, clickerUpgrade1Owned, cookiesPerClickMultiplier,1); clickerUpgrade1Owned = result.$1; cookiesPerClickMultiplier = result.$2;}, 
+                        icon: Icon(Icons.add),)
+                  ],
+                ),
+              ),
+              Card(
+                child: Row(
+                  children: [
+                    Expanded(
                       child: ListTile(
                         leading: Icon(Icons.bakery_dining),
                         title: Text("Baker Upgrade"),
@@ -264,9 +297,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
                   children: [
                     Expanded(
+                      child: ListTile(
+                        leading: Icon(Icons.bakery_dining),
+                        title: Text("Coockies"),
+                        subtitle: Text("Clicker gains 1% of CPS Cost: 3000"),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed:(){var result = upgradeClicker(3000,clickerUpgrade2Owned,cookiesFromCPSMult,0.01); clickerUpgrade2Owned = result.$1; cookiesFromCPSMult = result.$2;},
+                      icon: Icon(Icons.add),)
+                  ],
+                )
+              ),
+              Card(
+                child: Row(
+                  children: [
+                    Expanded(
                       child:ListTile(
                         leading: Icon(Icons.agriculture),
-                        title: Text("Far Upgrade"),
+                        title: Text("Farm Upgrade"),
                         subtitle: Text("Double Farm Cps Cost: 10000"),
                       )
                     ),
